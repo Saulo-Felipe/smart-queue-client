@@ -1,0 +1,55 @@
+section.queue {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+
+  .arrow {
+    position: absolute;;
+    background: #fff;
+    padding: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
+    left: calc(-3rem/2);
+    top: calc(50% - 3rem/2 + 1rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    z-index: 2;
+    cursor: pointer;
+    transition: 300ms;
+
+    &:hover {
+      box-shadow: 0 0 20px rgb(0, 0, 0, 0.5); 
+    }
+  }
+  .right {
+    right: calc(-3rem/2);
+    left: unset;
+  }
+
+  .title {
+    font-size: 1.75rem;    
+    margin-bottom: 0.4rem;
+  }
+
+  hr {
+    opacity: 0.5;
+  }
+
+  .carousel {
+    overflow: hidden;
+    margin-top: 1.5rem;
+    scroll-behavior: smooth;
+
+    > div {
+      display: flex;
+      width: max-content;
+      margin: 0.2rem;
+    }
+  }
+  
+
+}

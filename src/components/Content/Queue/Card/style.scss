@@ -1,0 +1,84 @@
+.card {
+  width: 10rem;
+  height: 10rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  border: solid 1px rgb(194, 194, 194);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  & + .card {
+    margin-left: 1rem;
+  }
+
+  &:hover {
+    footer {
+      .option-icon {
+        bottom: 0;
+        opacity: 1;
+      }
+    }
+  }
+
+  > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.2rem 0.4rem;
+    border-bottom: solid 1px rgb(0, 0, 0, 0.3);
+
+    svg {
+      font-size: 1.5rem;
+    }
+  }
+
+  > section {
+    padding: 0.25rem;
+    .info {
+      .label {
+        font-weight: bold;
+      }
+
+      .text {
+
+      }
+    }
+  }
+
+  > footer {
+    display: flex;
+    justify-content: flex-end;
+
+    .option-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      background-color: var(--background);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+
+      bottom: -120%;
+      opacity: 0;
+      transition: 300ms;
+
+      & + .option-icon {
+        margin-left: 0.5rem;
+      }
+    }
+    
+    .remove {
+      color: red;
+    }
+
+    .edit {
+      color: var(--default-blue);
+    }
+  }
+}
