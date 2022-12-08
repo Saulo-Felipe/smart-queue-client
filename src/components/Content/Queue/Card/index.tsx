@@ -4,26 +4,34 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 
 import "./style.scss";
 
-export function Card() {
+export interface Patient {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  isPriority: boolean;
+}
+
+export function Card({gender, id, isPriority, name, age}: Patient) {
 
   return (
     <div className="card">
-      <header>Patient name <BiUserCircle /></header>
+      <header>{name} <BiUserCircle /></header>
 
       <section>
         <div className="info">
           <span className="label">Nº Fila: </span>
-          <span className="text">12</span>
+          <span className="text">{id}</span>
         </div>
 
         <div className="info">
           <span className="label">Idade: </span>
-          <span className="text">25</span>
+          <span className="text">{age}</span>
         </div>
         
         <div className="info">
           <span className="label">Sexo: </span>
-          <span className="text">M</span>
+          <span className="text">{gender}</span>
         </div>
       </section>
 

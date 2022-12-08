@@ -1,9 +1,15 @@
-import { Card } from "./Card";
+import { Card, Patient } from "./Card";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "./style.scss";
 import { useRef } from "react";
 
-export function Queue() {
+interface QueueProps {
+  title: string;
+  isPriority: boolean;
+  data: Patient[];
+}
+
+export function Queue({title, data, isPriority}: QueueProps) {
   const carouselRef = useRef<any>(null);
 
   function carouselNext() {
@@ -17,8 +23,8 @@ export function Queue() {
 
 
   return (
-    <section className="queue"> 
-      <h1 className="title">Fila normal</h1>
+    <section className="queue">
+      <h1 className="title">{title}</h1>
       <hr />
 
       <span className="arrow left" onClick={carouselNext}><IoIosArrowBack /></span>
@@ -27,14 +33,9 @@ export function Queue() {
       <div className="carousel" ref={carouselRef}>
 
         <div>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {
+            data.map((patient, i) => <Card key={i} {...patient} />)
+          }
         </div>
       </div>
     </section>
