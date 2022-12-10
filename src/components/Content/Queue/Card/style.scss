@@ -1,4 +1,25 @@
+.selected-card {
+  border: solid 1px blue !important;
+  width: 10.5rem !important;
+  height: 10.5rem !important;
+  margin-top: 0!important;
+
+  &::before {
+    content: "Próximo";
+    position: absolute;
+    background-color: green;
+    color: #fff;
+    padding: 0.25rem 2rem;
+    transform: rotate(45deg);
+    top: 0.5rem;
+    right: -2rem;
+    border-radius: 0.5rem;
+  }
+}
+
+
 .card {
+  position: relative;
   width: 10rem;
   height: 10rem;
   padding: 0.5rem;
@@ -6,16 +27,18 @@
   border-radius: 0.3rem;
   border: solid 1px rgb(194, 194, 194);
   overflow: hidden;
+  margin-top: 0.25rem;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
   & + .card {
     margin-left: 1rem;
   }
 
   &:hover {
+    border: solid 1px black;
     footer {
       .option-icon {
         bottom: 0;
@@ -72,7 +95,7 @@
         margin-left: 0.5rem;
       }
     }
-    
+
     .remove {
       color: red;
     }

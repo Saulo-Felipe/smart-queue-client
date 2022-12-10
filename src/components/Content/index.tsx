@@ -6,8 +6,8 @@ import { Queue } from "./Queue";
 import "./style.scss";
 
 export function Content() {
-  const { allPatients, getPatients } = useQueue();
-  console.log("all: ", allPatients);
+  const { normalQueue, priorityQueue, getPatients } = useQueue();
+
   useEffect(() => { getPatients() }, []);
 
   return (
@@ -20,14 +20,14 @@ export function Content() {
 
       <Queue 
         title="Fila Normal" 
-        data={allPatients.filter(item => !item.isPriority)} 
+        data={normalQueue} 
         isPriority={false} 
         key={1}
       />
 
       <Queue 
         title="Fila Prioritária" 
-        data={allPatients.filter(item => item.isPriority)} 
+        data={priorityQueue} 
         isPriority={true} 
         key={2} 
       />

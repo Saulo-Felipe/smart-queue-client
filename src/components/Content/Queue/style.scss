@@ -33,6 +33,10 @@ section.queue {
   .title {
     font-size: 1.75rem;    
     margin-bottom: 0.4rem;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   hr {
@@ -43,11 +47,49 @@ section.queue {
     overflow: hidden;
     margin-top: 1.5rem;
     scroll-behavior: smooth;
+    position: relative;
+    min-height: 10rem;
+
+    .without-patient {
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      height: calc(10rem - 0.4rem);
+      width: 100%;
+    }
 
     > div {
       display: flex;
       width: max-content;
       margin: 0.2rem;
+    }
+
+    .loading {
+      width: 100%;
+      height: 100%;
+      background-color: var(--background);
+      backdrop-filter: blur(1px);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        animation: animatedLoadingCarousel infinite 1s ease;
+        font-size: 1.5rem;
+
+        @keyframes animatedLoadingCarousel {
+          0% {
+            transform: rotate(0deg);
+          }
+
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      }
     }
   }
   

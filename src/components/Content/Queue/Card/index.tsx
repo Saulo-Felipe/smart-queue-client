@@ -3,19 +3,23 @@ import { TbEdit } from "react-icons/tb";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import "./style.scss";
+import { useEffect } from "react";
+import { useQueue } from "../../../../hooks/useQueue";
 
 export interface Patient {
   id: number;
   name: string;
   age: number;
   gender: string;
-  isPriority: boolean;
+  ispriority: boolean;
+  key?: any;
 }
 
-export function Card({gender, id, isPriority, name, age}: Patient) {
+export function Card({key, gender, id, ispriority, name, age}: Patient) {
+  const { nextPatient } = useQueue();
 
   return (
-    <div className="card">
+    <div className={`card ${nextPatient.id === id ? "selected-card" : ""}`}>
       <header>{name} <BiUserCircle /></header>
 
       <section>
