@@ -109,4 +109,13 @@
       }
     }
   }
+
+  @media (max-width: 991px) {
+    z-index: 101;
+
+    .modal-content {
+      width: 95%;
+      padding: 1.5rem;
+    }
+  }
 }

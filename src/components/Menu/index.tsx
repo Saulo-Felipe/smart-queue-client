@@ -1,9 +1,10 @@
 import { IoIosAddCircle } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQueue } from "../../hooks/useQueue";
 import { BiSkipNextCircle } from "react-icons/bi";
-import { AiOutlinePauseCircle } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlinePauseCircle } from "react-icons/ai";
 import { RiPlayCircleLine } from "react-icons/ri"; 
+import { GrFormClose } from "react-icons/gr";
 import { Modal } from "./Modal";
 
 import "./style.scss";
@@ -11,12 +12,22 @@ import "./style.scss";
 export function Menu() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
-
-  const { CallPatient, handleChangeTimeIsPaused, automaticTimePaused } = useQueue();
+  const { 
+    CallPatient, 
+    handleChangeTimeIsPaused, 
+    automaticTimePaused, 
+    isQueueLoading,
+    mobileMenuIsOpen,
+    setMobileMenuIsOpen 
+  } = useQueue();
 
   return (
     <>
-      <nav id="menu">
+      <nav id="menu" className={mobileMenuIsOpen ? "is-open" : "is-closed"}>
+        <div className="close-menu"
+          onClick={() => setMobileMenuIsOpen(false)}
+        ><GrFormClose /></div>
+
         <img alt="Logo que representa a empresa" src="/Logotipo.png" />
 
         <div className="options">
@@ -25,7 +36,7 @@ export function Menu() {
             Adicionar paciente
           </div>
 
-          <div className="option" onClick={CallPatient}>
+          <div className={`option ${isQueueLoading ? "default-disabled" : ""}`} onClick={CallPatient}>
             <BiSkipNextCircle />
             Chamar Próximo paciente
           </div>

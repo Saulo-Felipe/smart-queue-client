@@ -6,6 +6,32 @@ section#content {
 
   padding: 2rem 3rem;
 
+  @media (max-width: 991px) {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .menu-mobile {
+    display: none;
+    font-size: 2rem;
+
+    svg {
+      margin-right: 0 !important;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .menu-mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    > header {
+      justify-content: space-between !important;
+      margin-bottom: 2rem;
+    }
+  }
   > header {
     display: flex;
     justify-content: flex-end;

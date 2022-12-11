@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, createContext, ReactPropTypes, ReactNode } from "react";
+import { useState, useEffect, useContext, createContext, ReactPropTypes, ReactNode, useRef } from "react";
 import { Patient } from "../components/Content/Queue/Card";
 import { api } from "../service/api";
 
@@ -14,9 +14,13 @@ interface QueueProviderValue {
   normalQueue: Patient[];
   priorityQueue: Patient[];
   isQueueLoading: boolean;
+  setIsQueueLoading(args: boolean): void;
   nextPatient: {id: number, ispriority: boolean};
   handleChangeTimeIsPaused(): void;
   automaticTimePaused: boolean;
+  mobileMenuIsOpen: boolean;
+  setMobileMenuIsOpen(args: boolean): void;
+  deletePatient(id: number): void;
 }
 
 
@@ -32,7 +36,8 @@ export function QueueProvider({children}: QueueProviderProps) {
     id: 0,
     ispriority: false
   });
-  var nextQueue = 1;
+  const nextRef = useRef(1);
+  const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
 
   async function getPatients() {
     try {
@@ -50,18 +55,19 @@ export function QueueProvider({children}: QueueProviderProps) {
 
 
   async function CallPatient() {
-
-    setIsQueueLoading(true);
-    const { data } = await api.patch("/api/patient", { // remove patient
-      id: nextPatient.id
-    });
-    setIsQueueLoading(false);
-
-    if (nextQueue === 0) {
-      setNormalQueue(data.filter((e: any, i: number) => !e.ispriority));
-
-    } else {
-      setPriorityQueue(data.filter((e: any) => e.ispriority))
+    if (!isQueueLoading) {
+      setIsQueueLoading(true);
+      const { data } = await api.patch("/api/patient", { // remove patient
+        id: nextPatient.id
+      });
+      setIsQueueLoading(false);
+  
+      if (nextRef.current === 0) {
+        setNormalQueue(data.filter((e: any, i: number) => !e.ispriority));
+  
+      } else {
+        setPriorityQueue(data.filter((e: any) => e.ispriority))
+      }
     }
   }
 
@@ -69,35 +75,31 @@ export function QueueProvider({children}: QueueProviderProps) {
     setAutomaticTimePaused(automaticTimePaused == false);
   }
 
-  useEffect(() => {
-    if (normalQueue.length === 0) {
-      setNextPatient({
-        id: priorityQueue[0]?.id,
-        ispriority: priorityQueue[0]?.ispriority
-      });
+  async function deletePatient(id: number) {
+    setIsQueueLoading(true);
+    await api.delete("/api/patient/"+id);
+    setIsQueueLoading(false);
 
-    } else if (priorityQueue.length === 0) {
+    
+
+  }
+
+  useEffect(() => {
+    if ((nextRef.current === 0 || nextRef.current == 1) && priorityQueue.length > 0) {
+      nextRef.current++;
+
       setNextPatient({
-        id: normalQueue[0]?.id,
-        ispriority: normalQueue[0]?.ispriority
+        id: priorityQueue[0].id,
+        ispriority: priorityQueue[0].ispriority
       });
 
     } else {
-      if (nextQueue === 0) {
-        nextQueue++;
-        setNextPatient({
-          id: normalQueue[0]?.id,
-          ispriority: normalQueue[0]?.ispriority
-        });
-      } else {
-        if (nextQueue == 2)
-          nextQueue = 0;
-        else
-          nextQueue++
+      if (normalQueue.length > 0) {
+        nextRef.current = 0;
   
         setNextPatient({
-          id: priorityQueue[0]?.id,
-          ispriority: priorityQueue[0]?.ispriority
+          id: normalQueue[0].id,
+          ispriority: normalQueue[0].ispriority
         });
       }
     }
@@ -110,9 +112,13 @@ export function QueueProvider({children}: QueueProviderProps) {
       priorityQueue,
       normalQueue,
       isQueueLoading,
+      setIsQueueLoading,
       nextPatient,
       handleChangeTimeIsPaused,
-      automaticTimePaused
+      automaticTimePaused,
+      mobileMenuIsOpen,
+      setMobileMenuIsOpen,
+      deletePatient
     }}>
       { children }
     </QueueContext.Provider>

@@ -3,6 +3,27 @@ section.queue {
   margin-bottom: 2rem;
   position: relative;
 
+  @media (max-width: 991px) {
+    padding: 1rem 0rem !important;
+
+    .arrow {
+      display: none !important;
+    }
+
+    .carousel {
+      overflow: scroll !important;
+    }
+
+    .title {
+      display: block !important;
+      
+      #timer {
+        display: block !important;
+      }
+    }
+  }
+
+
   .arrow {
     position: absolute;;
     background: #fff;

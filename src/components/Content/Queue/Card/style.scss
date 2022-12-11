@@ -100,8 +100,11 @@
       color: red;
     }
 
-    .edit {
-      color: var(--default-blue);
+    @media (max-width: 991px) {
+      .option-icon {
+        bottom: 0%;
+        opacity: 1;
+      }
     }
   }
 }

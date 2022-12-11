@@ -2,6 +2,7 @@ import { GrFormClose } from "react-icons/gr";
 import { api } from "../../../service/api";
 import { useState } from "react"; 
 import { useQueue } from "../../../hooks/useQueue";
+import { toast } from "react-toastify";
 
 import "./style.scss";
 
@@ -13,32 +14,35 @@ export function Modal({ setModalIsOpen }: ModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     age: 0,
-    gender: "",
+    gender: "Masculino",
     ispriority: false
   });
 
-  const { getPatients } = useQueue();
+  const { getPatients, isQueueLoading, setIsQueueLoading } = useQueue();
 
   async function handleCreatePatient() {
-    if (formData.name.length === 0 ||
-      formData.gender.length === 0 ||
-      formData.age === 0) {
-      alert("Preencha todos os campos");
-
-    } else {
-      try {
-        console.log("sned: "+formData.ispriority)
-        await api.post("/api/patient", { ...formData });
-
-        setFormData({name: "", age: 0, gender: "Masculino", ispriority: false});
-        getPatients();
-
-        alert("Paciente Cadastrado com sucesso");
-
-      } catch(e) {
-        alert("Erro ao cadastrar paciente.");
-        console.log(e);
-      }
+    if (!isQueueLoading) {
+      if (formData.name.length === 0 ||
+        formData.gender.length === 0 ||
+        formData.age === 0) {
+          toast.warning("Preencha todos os campos");
+  
+      } else {
+        try {
+          setIsQueueLoading(true);
+          await api.post("/api/patient", { ...formData });
+          setIsQueueLoading(false);
+  
+          setFormData({name: "", age: 0, gender: "Masculino", ispriority: false});
+          getPatients();
+  
+          toast.success("Paciente cadastrado com sucesso.");
+  
+        } catch(e) {
+          alert("Erro ao cadastrar paciente.");
+          console.log(e);
+        }
+      }  
     }
   }
 
@@ -57,6 +61,7 @@ export function Modal({ setModalIsOpen }: ModalProps) {
             <input
               id="name"
               type="text"
+              value={formData.name}
               placeholder="Nome do paciente"
               onChange={({target}) => setFormData({ ...formData, name: target.value })}
             />
@@ -68,6 +73,7 @@ export function Modal({ setModalIsOpen }: ModalProps) {
               <input
                 id="age"
                 type={"number"}
+                value={formData.age === 0 ? "" : formData.age}
                 placeholder="Idade do paciente"
                 onChange={({target}) => setFormData({ ...formData, age: Number(target.value) })}
               />
@@ -78,6 +84,7 @@ export function Modal({ setModalIsOpen }: ModalProps) {
 
               <select
                 onChange={({target}) => setFormData({ ...formData, gender: target.value })}
+                value={formData.gender}
               >
                 <option>Masculino</option>
                 <option>Feminino</option>
@@ -86,7 +93,7 @@ export function Modal({ setModalIsOpen }: ModalProps) {
           </div>
 
           <div className="form-group checks">
-            <label htmlFor="yes">Paciente Eispriority?</label>
+            <label htmlFor="yes">Paciente prioritário?</label>
 
             <div className="check">
               <label className="no-bold" htmlFor="yes">Sim</label>
@@ -110,7 +117,7 @@ export function Modal({ setModalIsOpen }: ModalProps) {
           </div>
 
           <div className="btn-container">
-            <button className="create-btn" onClick={handleCreatePatient}>Cadastrar</button>
+            <button className={`create-btn ${isQueueLoading ? "default-disabled " : ""}`} onClick={handleCreatePatient}>Cadastrar</button>
           </div>
 
         </form>

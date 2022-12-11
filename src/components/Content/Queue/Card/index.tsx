@@ -16,7 +16,7 @@ export interface Patient {
 }
 
 export function Card({key, gender, id, ispriority, name, age}: Patient) {
-  const { nextPatient } = useQueue();
+  const { nextPatient, deletePatient } = useQueue();
 
   return (
     <div className={`card ${nextPatient.id === id ? "selected-card" : ""}`}>
@@ -32,7 +32,7 @@ export function Card({key, gender, id, ispriority, name, age}: Patient) {
           <span className="label">Idade: </span>
           <span className="text">{age}</span>
         </div>
-        
+
         <div className="info">
           <span className="label">Sexo: </span>
           <span className="text">{gender}</span>
@@ -40,8 +40,10 @@ export function Card({key, gender, id, ispriority, name, age}: Patient) {
       </section>
 
       <footer>
-        <div className="option-icon remove"><RiDeleteBin6Line /></div>
-        <div className="option-icon edit"><TbEdit /></div>
+        <div
+          className="option-icon remove"
+          onClick={() => deletePatient(id)}
+        ><RiDeleteBin6Line /></div>
       </footer>
     </div>
   );

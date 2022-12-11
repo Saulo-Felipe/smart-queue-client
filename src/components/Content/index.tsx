@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { useQueue } from "../../hooks/useQueue";
+import { AiOutlineMenu } from "react-icons/ai"; 
 import { Queue } from "./Queue";
 
 import "./style.scss";
 
 export function Content() {
-  const { normalQueue, priorityQueue, getPatients } = useQueue();
+  const { normalQueue, priorityQueue, getPatients, setMobileMenuIsOpen } = useQueue();
 
   useEffect(() => { getPatients() }, []);
 
   return (
     <section id="content">
       <header>
+        <div className="menu-mobile" onClick={() => setMobileMenuIsOpen(true)}><AiOutlineMenu /></div>
+        
         <div>
           <MdOutlineAdminPanelSettings /> Admin
         </div>
